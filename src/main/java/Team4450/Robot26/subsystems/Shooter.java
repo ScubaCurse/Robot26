@@ -252,7 +252,7 @@ public class Shooter extends SubsystemBase {
             distToGoal = 4.5;
         } else {
             // Calculate distance to goal & diffs
-            Pose2d goalPose = drivebase.getPoseToAim(getGoalPose());
+            Pose2d goalPose = (getGoalPose());
             double xDiff = Math.abs(goalPose.getX() - drivebase.getPose().getX());
             double yDiff = Math.abs(goalPose.getY() - drivebase.getPose().getY());
             distToGoal = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));

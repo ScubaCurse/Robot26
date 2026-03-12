@@ -75,6 +75,8 @@ public class RobotContainer {
 
   public static Hopper hopper = new Hopper();
 
+  public static boolean inTestMode = false;
+
   // Subsystem Default Commands.
 
   // Persistent Commands.

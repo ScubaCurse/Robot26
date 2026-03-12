@@ -285,6 +285,7 @@ public class Robot extends TimedRobot {
         // What is LiveWindow
         // LiveWindow.enableAllTelemetry();
 
+        RobotContainer.inTestMode = true;
         teleopInit();
 
         CommandScheduler.getInstance().enable();
@@ -295,5 +296,10 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testPeriodic() {
+    }
+
+    @Override
+    public void testExit() {
+        RobotContainer.inTestMode = false;
     }
 }

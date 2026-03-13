@@ -348,10 +348,11 @@ public class RobotContainer {
         .onFalse(new InstantCommand(shooter::stopInfeed));
 
     new Trigger(() -> driverController.getAButton())
-        .onTrue(new InstantCommand(intake::startIntake));
+        .onTrue(new InstantCommand(intake::startIntake))
+        .onFalse(new InstantCommand(intake::stopIntake));
 
     new Trigger(() -> driverController.getBButton())
-        .onTrue(new InstantCommand(intake::stopIntake));
+        .onTrue(new InstantCommand(visionSubsystem::resetYaw));
 
     new Trigger(() -> driverController.getYButton())
         .onTrue(new InstantCommand(shooter::reverseInfeed))

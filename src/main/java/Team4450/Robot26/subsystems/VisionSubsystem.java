@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.lang.Math;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import Team4450.Robot26.RobotContainer;
 
 public class VisionSubsystem extends SubsystemBase {
     // Info from: https://docs.limelightvision.io/docs/docs-limelight/pipeline-apriltag/apriltags
@@ -169,14 +170,10 @@ public class VisionSubsystem extends SubsystemBase {
                 this.rightLimelightSee = false;
             }
         }
+    }
 
-        // Get rid of the result if the yaw of the resulting pose is impossible
-        //
-        // I think the yaw is between -180 and 180 instead of 0 - 360
-        // if (front_mt2.pose.getRotation().getDegrees() < 0 || front_mt2.pose.getRotation().getDegrees() > 360 || right_mt2.pose.getRotation().getDegrees() < 0 || right_mt2.pose.getRotation().getDegrees() > 360) {
-        //     return;
-        // }
-        
+    public void resetYaw() {
+        RobotContainer.drivebase.pigeonWrapper.setCurrentYaw(RobotContainer.drivebase.limelightPoseEstimate.getRotation().getDegrees());
     }
 
     public void zeroLimelightIMU(RobotOrientation rO) { // Set to IMU mode 0 to diable the internal limelight IMU

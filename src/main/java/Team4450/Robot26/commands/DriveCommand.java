@@ -81,7 +81,7 @@ public class DriveCommand extends Command {
 
         // Decides where to track
         // If both inputs are zero and the alliance is blue then
-        if (rotationXSupplier.getAsDouble() == 0 && rotationYSupplier.getAsDouble() == 0 && alliance == DriverStation.Alliance.Blue) {
+        if (Math.abs(rotationXSupplier.getAsDouble()) <= 0.2 && Math.abs(rotationYSupplier.getAsDouble()) <= 0.2 && alliance == DriverStation.Alliance.Blue) {
             // Checks if robot is currently in the Alliance Zone then aims at the hub
             if (drivebase.getPose().getX() < NEUTRAL_BLUE_ZONE_BARRIER_X) {
                 targetHeading = drivebase.getAngleToAim(hubPosition);
@@ -94,7 +94,7 @@ public class DriveCommand extends Command {
                 }
             }
             // This does the same thing but for the red alliance
-        } else if (rotationXSupplier.getAsDouble() == 0 && rotationYSupplier.getAsDouble() == 0 && alliance == DriverStation.Alliance.Red) {
+        } else if (Math.abs(rotationXSupplier.getAsDouble()) <= 0.2 && Math.abs(rotationYSupplier.getAsDouble()) <= 0.2 && alliance == DriverStation.Alliance.Red) {
             if (drivebase.getPose().getX() > NEUTRAL_RED_ZONE_BARRIER_X) {
                 targetHeading = drivebase.getAngleToAim(hubPosition);
             } else {
@@ -104,15 +104,15 @@ public class DriveCommand extends Command {
                     targetHeading = drivebase.getAngleToAim(FERRY_RED_OUTPOST_CORNER);
                 }
             }
-            // If there IS input, set the target heading to where the joystick si facing in relation to the driver
+            // If there IS input, set the target heading to where the joystick is facing in relation to the driver
         } else {
-            targetHeading = -Math.toDegrees(Math.atan2(rotationYSupplier.getAsDouble(), rotationXSupplier.getAsDouble())) - 90;
+            targetHeading = Math.toDegrees(Math.atan2(rotationYSupplier.getAsDouble(), rotationXSupplier.getAsDouble())) - 90;
         }
 
 
         SmartDashboard.putNumber("Target Heading", targetHeading);
 
-        double error = -targetHeading + Math.toDegrees(drivebase.getPose().getRotation().getDegrees());
+        double error = targetHeading - (drivebase.getPose().getRotation().getDegrees());
 
         SmartDashboard.putNumber("Heading Error", error);
 
@@ -120,10 +120,8 @@ public class DriveCommand extends Command {
                 (SmartDashboard.putBoolean("Send Front Limelight info", true) ||
                  SmartDashboard.putBoolean("Send Right Limelight info", true))) {
 
-
             // Uses a PID and the previous assigned target heading to rotate there
-            double rotation = -headingPID.calculate(-Math.toDegrees(drivebase.getPose().getRotation().getDegrees()),
-                    -targetHeading);
+            double rotation = -headingPID.calculate(error);
             double throttle = throttleSupplier.getAsDouble();
             double strafe = strafeSupplier.getAsDouble();
 

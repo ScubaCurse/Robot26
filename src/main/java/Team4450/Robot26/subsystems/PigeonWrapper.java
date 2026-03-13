@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 public class PigeonWrapper extends SubsystemBase {
     public Pigeon2      pigeon;
-    public double      startingYaw;
+    public double      startingYaw; // Starting yaw is in degrees
 
     public PigeonWrapper(Pigeon2 pigeon) {
         Util.consoleLog();
@@ -29,6 +29,10 @@ public class PigeonWrapper extends SubsystemBase {
      */
     public double getYaw() {
         return -pigeon.getYaw().getValueAsDouble() + startingYaw;
+    }
+
+    public void setCurrentYaw(double target) {
+        startingYaw = -(getHeading() - target);
     }
 
 	/**

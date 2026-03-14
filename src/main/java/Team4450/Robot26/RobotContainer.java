@@ -239,8 +239,7 @@ public class RobotContainer {
         () -> driverController.getLeftY(),
         driverController.getLeftXDS(),
         driverController.getRightXDS(),
-        driverController.getRightYDS(),
-        driverController, headingPID);
+        driverController.getRightYDS(), headingPID);
 
     drivebase.setDefaultCommand(driveCommand);
 
@@ -301,8 +300,8 @@ public class RobotContainer {
         .onChange(new InstantCommand(drivebase::toggleSlowMode));
 
     // Reset field orientation (direction).
-    new Trigger(() -> driverController.getPOV() == 180) // D-pad down Cole
-        .onTrue(new InstantCommand(drivebase::resetFieldOrientation));
+    // new Trigger(() -> driverController.getPOV() == 180) // D-pad down Cole
+    //     .onTrue(new InstantCommand(drivebase::resetFieldOrientation));
 
     // Toggle field-oriented driving mode.
     // new Trigger(() -> driverController.getAButton()) // Rich
@@ -323,14 +322,17 @@ public class RobotContainer {
     // .onTrue(new InstantCommand(driveBase::toggleNeutralMode));
 
     // Right D-Pad button sets X pattern to stop movement.
-    new Trigger(() -> driverController.getPOV() == 90) // Rich
+    new Trigger(() -> driverController.getPOV() == 90) // Rich // Right D-pad
         .onTrue(new InstantCommand(drivebase::setX));
 
     new Trigger(() -> driverController.getPOV() == 0) // Up D-pad
         .onTrue(new InstantCommand(shooter::toggleDisableAutomaticDistance));
 
-    new Trigger(() -> driverController.getPOV() == 270)
+    new Trigger(() -> driverController.getPOV() == 270) // Left D-pad
         .onTrue(new InstantCommand(shooter::toggleDisableAutomaticDistanceTwo));
+
+    new Trigger(() -> driverController.getPOV() == 180) // Down D-pad
+        .onTrue(new InstantCommand(shooter::toggleDisableAutomaticDistanceThree));
 
     // -------- Utility controller buttons ----------
     

@@ -101,8 +101,8 @@ public class Robot extends TimedRobot {
           SendableVersion.INSTANCE.getUser(), SendableVersion.INSTANCE.getTime(), SendableVersion.INSTANCE.getBranch(),
           SendableVersion.INSTANCE.getCommit());
 
-      // Send program version to the dashboard.
-      SmartDashboard.putString("Program", PROGRAM_NAME);
+            // Send program version to the dashboard.
+            SmartDashboard.putString(Constants.SmartDashboardKeys.PROGRAM, PROGRAM_NAME);
 
       // Log RobotLib and WPILib versions we are using. Note Robolib WPILib version
       // can be different
@@ -218,14 +218,14 @@ public class Robot extends TimedRobot {
 
   public Shoot command;
 
-  /**
-   * This function is called once at the start of autonomous mode and schedules
-   * the autonomous command selected by your {@link RobotContainer} class.
-   */
-  @Override
-  public void autonomousInit() {
-    SmartDashboard.putBoolean("Disabled", false);
-    SmartDashboard.putBoolean("Auto Mode", true);
+    /**
+     * This function is called once at the start of autonomous mode and schedules
+     * the autonomous command selected by your {@link RobotContainer} class.
+     */
+    @Override
+    public void autonomousInit() {
+        SmartDashboard.putBoolean(Constants.SmartDashboardKeys.DISABLED, false);
+        SmartDashboard.putBoolean(Constants.SmartDashboardKeys.AUTO_MODE, true);
 
     robotContainer.getMatchInformation();
 
@@ -261,8 +261,8 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     robotContainer.getMatchInformation();
 
-    SmartDashboard.putBoolean("Disabled", false);
-    SmartDashboard.putBoolean("Teleop Mode", true);
+        SmartDashboard.putBoolean(Constants.SmartDashboardKeys.DISABLED, false);
+        SmartDashboard.putBoolean(Constants.SmartDashboardKeys.TELEOP_MODE, true);
 
     // Set Limelight imu mode to 2
     RobotContainer.visionSubsystem.enableInternalIMU();
@@ -316,15 +316,21 @@ public class Robot extends TimedRobot {
     // What is LiveWindow
     // LiveWindow.enableAllTelemetry();
 
-    teleopInit();
+        RobotContainer.inTestMode = true;
+        teleopInit();
 
     CommandScheduler.getInstance().enable();
   }
 
-  /**
-   * This function is called periodically during test mode.
-   */
-  @Override
-  public void testPeriodic() {
-  }
+    /**
+     * This function is called periodically during test mode.
+     */
+    @Override
+    public void testPeriodic() {
+    }
+
+    @Override
+    public void testExit() {
+        RobotContainer.inTestMode = false;
+    }
 }

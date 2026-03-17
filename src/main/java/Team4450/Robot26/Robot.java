@@ -3,6 +3,7 @@ package Team4450.Robot26;
 import static Team4450.Robot26.Constants.*;
 
 import Team4450.Robot26.commands.Shoot;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import Team4450.Lib.*;
 import Team4450.Robot26.utility.RobotOrientation;

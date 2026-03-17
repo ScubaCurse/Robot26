@@ -308,7 +308,7 @@ public class RobotContainer {
 
     // Reset field orientation (direction).
     // new Trigger(() -> driverController.getPOV() == 180) // D-pad down Cole
-    //     .onTrue(new InstantCommand(drivebase::resetFieldOrientation));
+    // .onTrue(new InstantCommand(drivebase::resetFieldOrientation));
 
     // Toggle field-oriented driving mode.
     // new Trigger(() -> driverController.getAButton()) // Rich

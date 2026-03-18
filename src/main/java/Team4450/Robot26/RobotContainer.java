@@ -2,6 +2,7 @@ package Team4450.Robot26;
 
 import static Team4450.Robot26.Constants.*;
 
+import com.ctre.phoenix6.SignalLogger;
 import com.fasterxml.jackson.databind.util.Named;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
@@ -43,9 +44,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -295,10 +298,6 @@ public class RobotContainer {
           utilityController.setRumble(RumbleType.kBothRumble, 0);
         }));
 
-    // Toggle slow-mode
-    new Trigger(() -> driverController.getLeftBumperButton()) // Rich
-        .onChange(new InstantCommand(drivebase::toggleSlowMode));
-
     // Reset field orientation (direction).
     // new Trigger(() -> driverController.getPOV() == 180) // D-pad down Cole
     //     .onTrue(new InstantCommand(drivebase::resetFieldOrientation));
@@ -321,20 +320,23 @@ public class RobotContainer {
     // new Trigger(() -> driverController.getBButton()) // Rich
     // .onTrue(new InstantCommand(driveBase::toggleNeutralMode));
 
+    // Toggle slow-mode
     // Right D-Pad button sets X pattern to stop movement.
-    new Trigger(() -> driverController.getPOV() == 90) // Rich // Right D-pad
-        .onTrue(new InstantCommand(drivebase::setX));
+    
+    new Trigger(() -> driverController.getLeftBumperButton()) // Rich
+        .onChange(new InstantCommand(drivebase::toggleSlowMode));
 
     new Trigger(() -> driverController.getPOV() == 0) // Up D-pad
         .onTrue(new InstantCommand(shooter::toggleDisableAutomaticDistance));
 
-    new Trigger(() -> driverController.getPOV() == 270) // Left D-pad
-        .onTrue(new InstantCommand(shooter::toggleDisableAutomaticDistanceTwo));
+    new Trigger(() -> driverController.getPOV() == 90) // Rich // Right D-pad
+        .onTrue(new InstantCommand(drivebase::setX));
 
     new Trigger(() -> driverController.getPOV() == 180) // Down D-pad
         .onTrue(new InstantCommand(shooter::toggleDisableAutomaticDistanceThree));
 
-    // -------- Utility controller buttons ----------
+    new Trigger(() -> driverController.getPOV() == 270) // Left D-pad
+        .onTrue(new InstantCommand(shooter::toggleDisableAutomaticDistanceTwo));
     
     new Trigger(() -> driverController.getRightBumperButton())
         .toggleOnTrue(new InstantCommand(intake::togglePivit));
@@ -345,10 +347,6 @@ public class RobotContainer {
     new Trigger(() -> driverController.getRightTrigger())
         .onTrue(new InstantCommand(shooter::startInfeed))
         .onFalse(new InstantCommand(shooter::stopInfeed));
-
-    // new Trigger(() -> driverController.getRightTrigger())
-    //     .onTrue(new InstantCommand(hopper::startSlow))
-    //     .onFalse(new InstantCommand(hopper::stop));
 
     new Trigger(() -> driverController.getAButton())
         .onTrue(new InstantCommand(intake::startIntake))

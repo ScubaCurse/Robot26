@@ -199,7 +199,7 @@ public final class Constants {
     public static final double FLYWHEEL_kV = 0.12;
     public static final double FLYWHEEL_kA = 0.05;
     // ---------------- PID (Velocity) ----------------
-    public static final double FLYWHEEL_kP = 0.2;
+    public static final double FLYWHEEL_kP = 0.22;
     public static final double FLYWHEEL_kI = 0;
     public static final double FLYWHEEL_kD = 0;
 
@@ -218,11 +218,11 @@ public final class Constants {
     // Hopper motor constants
     public static final int HOPPER_MOTOR_CAN_ID = 12; // Example CAN ID for the Kraken X60 motor
 
-    public static final int INTAKE_DEFAULT_TARGET_RPM = 5500;
+    public static final int INTAKE_DEFAULT_TARGET_RPM = 4500;
     // PID constants for Intake
     public static final double INTAKE_kP = 0.8;
 
-    public static final int INFEED_DEFAULT_TARGET_RPM = 4000;
+    public static final int INFEED_DEFAULT_TARGET_RPM = 3500;
     public static final int LOWER_ROLLERS_DEFAULT_TARGET_RPM = 1000;
     // PID constants for Shooter Infeed
     public static final double INFEED_kP = 0.8;

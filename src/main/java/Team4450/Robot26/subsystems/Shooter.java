@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 
 import Team4450.Robot26.utility.LinkedMotors;
@@ -319,7 +320,7 @@ public class Shooter extends SubsystemBase {
 
     public boolean flywheelAtSpeed() {
         // Change tolerence to a constant at some point
-        if (Math.abs(this.currentRPM - this.targetRPM) < 100) {
+        if (Math.abs(this.currentRPM - this.targetRPM) < 400) {
             return true;
         } else {
             return false;
@@ -614,12 +615,13 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setInfeedRPM(double targetRPM) {
-        double currentRPM = getInfeedRPM();
-        double error = targetRPM - currentRPM;
-        double adjustment = Constants.INFEED_kP * error; // Adjustment to approach target
-        double newRPM = targetRPM + adjustment; // Adjust current RPM towards target
+        // double currentRPM = getInfeedRPM();
+        // double error = targetRPM - currentRPM;
+        // double adjustment = Constants.INFEED_kP * error; // Adjustment to approach target
+        // double newRPM = targetRPM + adjustment; // Adjust current RPM towards target
+        VelocityVoltage velReq = new VelocityVoltage(Constants.INFEED_DEFAULT_TARGET_RPM / 60).withEnableFOC(true);
                                                 
-        this.infeedMotorLeft.set(newRPM / Constants.KRAKEN_X44_MAX_THEORETICAL_RPM);
+        this.infeedMotorLeft.setControl(velReq);
         this.infeedMotorRight.setControl(new Follower(this.infeedMotorLeft.getDeviceID(), MotorAlignmentValue.Opposed));
     }
 
@@ -693,6 +695,13 @@ public class Shooter extends SubsystemBase {
         infeedCFG.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         infeedCFG.CurrentLimits = new CurrentLimitsConfigs()
                 .withSupplyCurrentLimit(Constants.SHOOTER_INFEED_CURRENT_LIMIT);
+
+        infeedCFG.Slot0.kP = 0.1;
+        infeedCFG.Slot0.kI = 0;
+        infeedCFG.Slot0.kD = 0;
+        infeedCFG.Slot0.kS = 0.38;
+        infeedCFG.Slot0.kV = 0.1;
+        infeedCFG.Slot0.kA = 0.1;
 
         this.infeedMotorLeft.getConfigurator().apply(infeedCFG);
         this.infeedMotorRight.getConfigurator().apply(infeedCFG);

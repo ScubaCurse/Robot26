@@ -103,7 +103,7 @@ public class QuestNavSubsystem extends SubsystemBase {
             if (System.currentTimeMillis() - this.lastResetTime > 1500) {
                 if (RobotContainer.visionSubsystem.frontLimelightSee || RobotContainer.visionSubsystem.rightLimelightSee) { // One of the limelight must be seeing tags
                     // if (Math.abs(drivebase.getPose().getX() - drivebase.limelightPoseEstimate.getX()) > Constants.LIMELIGHT_QUEST_ERROR_AMOUNT_METERS || Math.abs(drivebase.getPose().getX() - drivebase.limelightPoseEstimate.getY()) > Constants.LIMELIGHT_QUEST_ERROR_AMOUNT_METERS) {
-                        drivebase.pigeonWrapper.setCurrentYaw(drivebase.limelightPoseEstimate.getRotation().getDegrees());
+                        // drivebase.pigeonWrapper.setCurrentYaw(drivebase.limelightPoseEstimate.getRotation().getDegrees());
                         drivebase.limelightPoseEstimate = nullPose2d;
                         this.lastResetTime = System.currentTimeMillis();
                     // }

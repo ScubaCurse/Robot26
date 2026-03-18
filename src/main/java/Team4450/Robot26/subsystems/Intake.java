@@ -2,6 +2,8 @@ package Team4450.Robot26.subsystems;
 
 import Team4450.Robot26.Constants;
 import Team4450.Robot26.RobotContainer;
+import Team4450.Robot26.Constants.SmartDashboardKeys;
+
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
@@ -13,6 +15,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix6.CANBus;
 
 public class Intake extends SubsystemBase {
@@ -38,10 +43,8 @@ public class Intake extends SubsystemBase {
   // The format of this value is in rotations of the pivit motor
   private double pivitCurrentPositionMotorPosition;
 
-  private boolean runIntake = false;
-  private boolean reverseIntake = false;
-
-  private RobotContainer robotContainer;
+    private boolean runIntake = false; 
+    private boolean reverseIntake = false;
 
   public Intake() {
     this.canPivit = pivitMotor.isConnected();
@@ -57,20 +60,29 @@ public class Intake extends SubsystemBase {
 
     TalonFXConfiguration intakeCFG = new TalonFXConfiguration();
 
-    // Neutral + inversion
-    intakeCFG.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-    intakeCFG.CurrentLimits = new CurrentLimitsConfigs().withSupplyCurrentLimit(Constants.SHOOTER_INFEED_CURRENT_LIMIT);
-    intakeCFG.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        // Neutral + inversion
+        intakeCFG.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+        intakeCFG.CurrentLimits = new CurrentLimitsConfigs().withSupplyCurrentLimit(Constants.SHOOTER_INFEED_CURRENT_LIMIT);
+        intakeCFG.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+
+        intakeCFG.Slot0.kP = 0.1;
+        intakeCFG.Slot0.kI = 0;
+        intakeCFG.Slot0.kD = 0;
+        intakeCFG.Slot0.kS = 0.48;
+        intakeCFG.Slot0.kV = 0.1;
+        intakeCFG.Slot0.kA = 0.1;
 
     this.intakeMotorLeft.getConfigurator().apply(intakeCFG);
     this.intakeMotorRight.getConfigurator().apply(intakeCFG);
 
     TalonFXConfiguration pivitCFG = new TalonFXConfiguration();
 
-    // Neutral + inversion
-    pivitCFG.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-    pivitCFG.CurrentLimits = new CurrentLimitsConfigs().withSupplyCurrentLimit(Constants.INTAKE_PIVIT_CURRENT_LIMIT);
-    pivitCFG.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        // Neutral + inversion
+        pivitCFG.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+        pivitCFG.CurrentLimits = new CurrentLimitsConfigs().withSupplyCurrentLimit(Constants.INTAKE_PIVIT_CURRENT_LIMIT);
+        pivitCFG.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+
+        pivitCFG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
     // Slot 0 PID
     pivitCFG.Slot0.kP = 1;
@@ -84,23 +96,23 @@ public class Intake extends SubsystemBase {
 
     this.pivitMotor.getConfigurator().apply(pivitCFG);
 
-    SmartDashboard.putBoolean("Intake can Pivit", canPivit);
-    SmartDashboard.putBoolean("Intake can Spin", canSpin);
-    SmartDashboard.putNumber("Pivit Position", 0);
+        SmartDashboard.putBoolean("Intake can Pivit", canPivit);
+        SmartDashboard.putBoolean("Intake can Spin", canSpin);
+        SmartDashboard.putNumber(Constants.SmartDashboardKeys.PIVIT_POSiTION, 0);
 
-    SmartDashboard.putNumber("Intake Target RPM", Constants.INTAKE_DEFAULT_TARGET_RPM);
-  }
+        SmartDashboard.putNumber("Intake Target RPM", Constants.INTAKE_DEFAULT_TARGET_RPM);
+        SmartDashboard.putNumber("Intake Voltage Out", 0);
+    }
 
-  @Override
-  public void periodic() {
-    this.pivitTargetPosition = SmartDashboard.getNumber("Pivit Position", 0);
-    if (this.canPivit) {
-      this.pivitTargetPositionMotorPosition = this.pivitPositionToMotorPosition(this.pivitTargetPosition);
-      SmartDashboard.putNumber("ppmp", this.pivitTargetPositionMotorPosition);
-      // Convert position input to rotations for the motor
-      // double power = Constants.INTAKE_PIVIT_MOTOR_POWER;
-
-      PositionVoltage req = new PositionVoltage(this.pivitTargetPositionMotorPosition);
+    @Override
+    public void periodic() {
+        this.pivitTargetPosition = SmartDashboard.getNumber(Constants.SmartDashboardKeys.PIVIT_POSiTION, 0);
+        if (this.canPivit) {
+            this.pivitTargetPositionMotorPosition = this.pivitPositionToMotorPosition(this.pivitTargetPosition);
+            // Convert position input to rotations for the motor
+            // double power = Constants.INTAKE_PIVIT_MOTOR_POWER;
+            
+            PositionVoltage req = new PositionVoltage(this.pivitTargetPositionMotorPosition);
 
       this.pivitMotor.setControl(req);
 
@@ -114,27 +126,26 @@ public class Intake extends SubsystemBase {
       SmartDashboard.putNumber("Intake Current Draw", getIntakeCurrent());
     }
 
-    if (this.runIntake) {
-      if (this.reverseIntake) {
-        setIntakeRPM(-SmartDashboard.getNumber("Intake Target RPM", Constants.INTAKE_DEFAULT_TARGET_RPM));
-      } else {
-        setIntakeRPM(SmartDashboard.getNumber("Intake Target RPM", Constants.INTAKE_DEFAULT_TARGET_RPM));
-      }
+        if (this.runIntake) {
+            if (this.reverseIntake) {
+                setIntakeRPM(-SmartDashboard.getNumber("Intake Target RPM", Constants.INTAKE_DEFAULT_TARGET_RPM));
+            } else {
+                setIntakeRPM(SmartDashboard.getNumber("Intake Target RPM", Constants.INTAKE_DEFAULT_TARGET_RPM));
+            }
+        }
     }
 
-  }
-
-  public void togglePivit() {
-    if (this.pivitCurrentPosition >= 0.8) {
-      SmartDashboard.putNumber("Pivit Position", 0);
-    } else {
-      SmartDashboard.putNumber("Pivit Position", 0.95);
+    public void togglePivit() {
+        if (this.pivitCurrentPosition >= 0.8) {
+            SmartDashboard.putNumber(Constants.SmartDashboardKeys.PIVIT_POSiTION, 0);
+        } else {
+            SmartDashboard.putNumber(Constants.SmartDashboardKeys.PIVIT_POSiTION, 0.95);
+        }
     }
-  }
 
-  public void pivitDown() {
-    SmartDashboard.putNumber("Pivit Position", 0.95);
-  }
+    public void pivitDown() {
+        SmartDashboard.putNumber(Constants.SmartDashboardKeys.PIVIT_POSiTION, 0.95);
+    }
 
   // Linear interpolate the pivit position between zero and one with the motor
   // rotations of up and down on the pivit
@@ -245,12 +256,14 @@ public class Intake extends SubsystemBase {
     this.pivitMotor.set(power);
   }
 
-  public void setIntakeRPM(double targetRPM) {
-    double currentRPM = getIntakeRPM();
-    double error = targetRPM - currentRPM;
-    double adjustment = Constants.INTAKE_kP * error; // Adjustment to approach target
-    double newRPM = targetRPM + adjustment; // Adjust current RPM towards target
-    this.intakeMotorLeft.set(newRPM / Constants.INTAKE_MAX_THEORETICAL_RPM);
-    this.intakeMotorRight.setControl(new Follower(this.intakeMotorLeft.getDeviceID(), MotorAlignmentValue.Opposed));
-  }
+    public void setIntakeRPM(double targetRPM) {
+        // double currentRPM = getIntakeRPM();
+        // double error = targetRPM - currentRPM;
+        // double adjustment = Constants.INTAKE_kP * error; // Adjustment to approach target
+        // double newRPM = targetRPM + adjustment; // Adjust current RPM towards target
+
+        VelocityVoltage velReq = new VelocityVoltage(Constants.INTAKE_DEFAULT_TARGET_RPM / 60).withEnableFOC(true);
+        this.intakeMotorLeft.setControl(velReq);
+        this.intakeMotorRight.setControl(new Follower(this.intakeMotorLeft.getDeviceID(), MotorAlignmentValue.Opposed));
+    }
 }

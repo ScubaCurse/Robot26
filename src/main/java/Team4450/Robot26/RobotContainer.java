@@ -6,6 +6,7 @@ import com.ctre.phoenix6.SignalLogger;
 import com.fasterxml.jackson.databind.util.Named;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.auto.AutoBuilder;
 
 import Team4450.Robot26.commands.DisableHubTracking;
 import Team4450.Robot26.commands.DriveCommand;
@@ -13,7 +14,6 @@ import Team4450.Robot26.commands.EnableHubTracking;
 import Team4450.Robot26.commands.Shoot;
 import Team4450.Robot26.commands.ShootWithX;
 import Team4450.Robot26.commands.StartIntake;
-import Team4450.Robot26.commands.StopIntake;
 import Team4450.Robot26.commands.StopShoot;
 import Team4450.Robot26.commands.StopAuto;
 import Team4450.Robot26.commands.IntakeUp;
@@ -78,6 +78,8 @@ public class RobotContainer {
   public static Hopper hopper = new Hopper();
 
   public static boolean inTestMode = false;
+
+  private final SendableChooser<Command> autoChooser;
 
   // Subsystem Default Commands.
 
@@ -183,8 +185,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("intakeUp", new IntakeUp(intake));
     NamedCommands.registerCommand("enableHubTracking", new EnableHubTracking(drivebase, headingPID));
     NamedCommands.registerCommand("disableHubTracking", new DisableHubTracking(drivebase));
-    NamedCommands.registerCommand("startIntake", new StartIntake(intake));
-    NamedCommands.registerCommand("stopIntake", new StopIntake(intake));
+    NamedCommands.registerCommand("intake", new StartIntake(intake));
     NamedCommands.registerCommand("shoot", new Shoot(drivebase, shooter, hopper));
     NamedCommands.registerCommand("stopShooter", new StopShoot(shooter, hopper));
     NamedCommands.registerCommand("end", new StopAuto(drivebase));
@@ -261,6 +262,10 @@ public class RobotContainer {
       }
     }).start();
 
+    // Configure autonomous routines and send to dashboard.
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+
     // Configure the button bindings.
     configureButtonBindings();
 
@@ -276,8 +281,10 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // ------- Driver controller buttons -------------
 
-    // For simple functions, instead of creating commands, we can call convenience functions on
-    // the target subsystem from an InstantCommand. It can be tricky deciding what functions
+    // For simple functions, instead of creating commands, we can call convenience
+    // functions on
+    // the target subsystem from an InstantCommand. It can be tricky deciding what
+    // functions
     // should be an aspect of the subsystem and what functions should be in
     // Commands...
 
@@ -300,7 +307,7 @@ public class RobotContainer {
 
     // Reset field orientation (direction).
     // new Trigger(() -> driverController.getPOV() == 180) // D-pad down Cole
-    //     .onTrue(new InstantCommand(drivebase::resetFieldOrientation));
+    // .onTrue(new InstantCommand(drivebase::resetFieldOrientation));
 
     // Toggle field-oriented driving mode.
     // new Trigger(() -> driverController.getAButton()) // Rich
@@ -377,12 +384,22 @@ public class RobotContainer {
   // }
 
   // public static String getAutonomousCommandName() {
-  //   return autonomousCommandName;
+  // return autonomousCommandName;
   // }
 
   // Configure SendableChooser (drop down list on dashboard) with auto program
   // choices and
   // send them to SmartDashboard/ShuffleBoard.
+
+  private void setAutoChoices() {
+    // autoChooser = AutoBuilder.buildAutoChooser();
+
+    // SmartDashboard.putData("Auto Program", autoChooser);
+  }
+
+  public Command getAutonomousCommand() {
+    return autoChooser.getSelected();
+  }
 
   /**
    * Get and log information about the current match from the FMS or DS.

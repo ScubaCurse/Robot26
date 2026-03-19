@@ -184,10 +184,10 @@ public final class Constants {
   public static boolean HUB_TRACKING = false;
 
   // Interpolation table
-  public static double[] FLYWHEEL_SPEED_TABLE = { 3550, 3650, 3850, 4050, 4300, 4400 }; // Converted from percentages to
+  public static double[] FLYWHEEL_SPEED_TABLE = { 3550, 3550, 3650, 3850, 4050, 4300, 4400 }; // Converted from percentages to
                                                                                         // RPM
-  public static double[] FLYWHEEL_SPEED_DISTANCE_TABLE = { 2, 2.5, 3, 3.5, 4, 4.5 };
-  public static double[] HOOD_ARC_TABLE = { 0.9, 1.65, 1.8, 1.85, 1.85, 2.3 };
+  public static double[] FLYWHEEL_SPEED_DISTANCE_TABLE = { 1.5, 2, 2.5, 3, 3.5, 4, 4.5 };
+  public static double[] HOOD_ARC_TABLE = { 0.6, 0.9, 1.65, 1.8, 1.85, 1.85, 2.3 };
 
   public static double[] FUEL_AIR_TIME_TABLE_SEC = { 1.1, 1.3, 1.4, 1.5, 1.8, 1.9, 2.1 };
 
@@ -210,7 +210,7 @@ public final class Constants {
     public static final double FLYWHEEL_kV = 0.12;
     public static final double FLYWHEEL_kA = 0.05;
     // ---------------- PID (Velocity) ----------------
-    public static final double FLYWHEEL_kP = 0.22;
+    public static final double FLYWHEEL_kP = 0.2;
     public static final double FLYWHEEL_kI = 0;
     public static final double FLYWHEEL_kD = 0;
 
@@ -269,9 +269,9 @@ public final class Constants {
     // Misc
     public static final String BEAM_BREAK = "Beam Break";
     public static final String DISABLE_AUTO_FLYWHEEL_UPDATE = "disableAutomaticFlywheelUpdate";
-    public static final String DISABLE_AUTO_DISTANCE_UPDATE = "disableAutomaticDistanceUpdate";
-    public static final String DISABLE_AUTO_DISTANCE_UPDATE_TWO = "disableAutomaticDistanceUpdateTwo";
-    public static final String DISABLE_AUTO_DISTANCE_UPDATE_THREE = "disableAutomaticDistanceUpdateThree";
+    public static final String MANUAL_DISTANCE_ONE = "disableAutomaticDistanceUpdate";
+    public static final String MANUAL_DISTANCE_TWO = "disableAutomaticDistanceUpdateTwo";
+    public static final String MANUAL_DISTANCE_THREE = "disableAutomaticDistanceUpdateThree";
     public static final String ROBOT_LAUNCH_X = "RobotLaunchX";
     public static final String ROBOT_LAUNCH_Y = "RobotLaunchY";
     public static final String GOAL_POSE = "Goal Pose";
@@ -311,11 +311,13 @@ public final class Constants {
     public static final String PIGEON_GYRO = "Pigeon Gyro";
     public static final String FIELD2D = "Field2d";
     public static final String BATTERY_VOLTAGE = "Battery Voltage";
-    public static final String GYRO_ANGLE = "Gyro angle";
     public static final String ROBOT_OD_POSE = "Robot od pose";
     public static final String ROBOT_POSE = "Robot pose";
     public static final String LIMELIGHT_POSE = "Limelight Pose";
     public static final String DRIVEBASE_CURRENT = "Drivebase Current";
+    public static final String GYRO_STARTING_YAW = "Gyro starting yaw";
+    public static final String Gyro_HEADING = "Gyro Heading";
+    public static final String FIELD_ORIENTED = "Field Oriented";
   }
 
   public static final class DriveConstants {
@@ -338,7 +340,7 @@ public final class Constants {
     // The split below matches the rotation speed to drive speed. Needs to be tuned
     // for
     // full weight robot.
-    public static final double kDriveReductionPct = .70; // Percentage of max linear speed. e.g. .50 == 50%
+    public static final double kDriveReductionPct = 1; // Percentage of max linear speed. e.g. .50 == 50%
     public static final double kRotationReductionPct = .70; // Percentage of max rotational speed. e.g. .70 == 70%
 
     // Factors used to slow robot speed for fine driving.

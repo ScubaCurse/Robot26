@@ -82,8 +82,6 @@ public class Intake extends SubsystemBase {
         pivitCFG.CurrentLimits = new CurrentLimitsConfigs().withSupplyCurrentLimit(Constants.INTAKE_PIVIT_CURRENT_LIMIT);
         pivitCFG.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-        pivitCFG.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-
     // Slot 0 PID
     pivitCFG.Slot0.kP = 1;
     pivitCFG.Slot0.kI = 0;

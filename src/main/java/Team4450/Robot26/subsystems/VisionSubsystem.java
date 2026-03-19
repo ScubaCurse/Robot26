@@ -3,6 +3,8 @@ package Team4450.Robot26.subsystems;
 import Team4450.Lib.Util;
 import Team4450.Robot26.Constants;
 import Team4450.Robot26.utility.RobotOrientation;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.lang.Math;
@@ -177,7 +179,11 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     public void resetYaw() {
-        RobotContainer.drivebase.pigeonWrapper.setCurrentYaw(0);
+        if (Constants.alliance == Alliance.Blue) {
+            RobotContainer.drivebase.pigeonWrapper.setCurrentYaw(0);
+        } else {
+            RobotContainer.drivebase.pigeonWrapper.setCurrentYaw(180);
+        }
     }
 
     public void zeroLimelightIMU(RobotOrientation rO) { // Set to IMU mode 0 to diable the internal limelight IMU

@@ -1,7 +1,6 @@
 package Team4450.Robot26.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.controller.PIDController;
@@ -102,9 +101,6 @@ public class DriveCommand extends Command {
             // If there IS input, set the target heading to where the joystick is facing in relation to the driver
         } else {
             targetHeading = -Math.toDegrees(Math.atan2(rotationYSupplier.getAsDouble(), rotationXSupplier.getAsDouble())) - 90;
-            if (alliance == Alliance.Red) {
-                targetHeading -= 180;
-            }
         }
 
         targetHeading = normalizeAngle(targetHeading);

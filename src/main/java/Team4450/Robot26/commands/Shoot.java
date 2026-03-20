@@ -25,10 +25,13 @@ public class Shoot extends Command {
 
     @Override
     public void execute() {
+        drivebase.setX();
         if (this.shooter.flywheelAtSpeed()) {
             shooter.startInfeed();
             hopper.start();
-        } else {
+        }
+
+        if (!this.shooter.flywheelWithinSpeed()) {
             shooter.stopInfeed();
         }
     }

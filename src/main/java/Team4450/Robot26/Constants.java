@@ -72,7 +72,7 @@ public final class Constants {
 
     public static int SHOOTER_UPPER_BEAM_BREAK_PORT = 3;
 
-    public static int SHOOTER_FLYWHEEL_CURRENT_LIMIT = 30;
+    public static int SHOOTER_FLYWHEEL_CURRENT_LIMIT = 35;
     public static int SHOOTER_INFEED_CURRENT_LIMIT = 40;
     public static int SHOOTER_HOOD_CURRENT_LIMIT = 5;
     public static int INTAKE_CURRENT_LIMIT = 20;
@@ -183,12 +183,11 @@ public final class Constants {
     public static double ROBOT_HEADING_TOLERANCE_DEG = 0.0001;
     public static boolean HUB_TRACKING = false;
 
-    // Interpolation table
-    public static double[] FLYWHEEL_SPEED_TABLE = { 3550, 3650, 3850, 4050, 4300, 4400 }; // Converted from percentages
-                                                                                          // to
-                                                                                          // RPM
-    public static double[] FLYWHEEL_SPEED_DISTANCE_TABLE = { 2, 2.5, 3, 3.5, 4, 4.5 };
-    public static double[] HOOD_ARC_TABLE = { 0.9, 1.65, 1.8, 1.85, 1.85, 2.3 };
+  // Interpolation table
+  public static double[] FLYWHEEL_SPEED_TABLE = { 3550, 3550, 3650, 3850, 4050, 4300, 4400 }; // Converted from percentages to
+                                                                                        // RPM
+  public static double[] FLYWHEEL_SPEED_DISTANCE_TABLE = { 1.5, 2, 2.5, 3, 3.5, 4, 4.5 };
+  public static double[] HOOD_ARC_TABLE = { 0.6, 0.9, 1.65, 1.8, 1.85, 1.85, 2.3 };
 
     public static double[] FUEL_AIR_TIME_TABLE_SEC = { 1.1, 1.3, 1.4, 1.5, 1.8, 1.9, 2.1 };
 
@@ -211,7 +210,7 @@ public final class Constants {
     public static final double FLYWHEEL_kV = 0.12;
     public static final double FLYWHEEL_kA = 0.05;
     // ---------------- PID (Velocity) ----------------
-    public static final double FLYWHEEL_kP = 0.22;
+    public static final double FLYWHEEL_kP = 0.2;
     public static final double FLYWHEEL_kI = 0;
     public static final double FLYWHEEL_kD = 0;
 
@@ -267,17 +266,17 @@ public final class Constants {
         public static final String INFEED_RPM = "Infeed RPM";
         public static final String INFEED_CURRENT_DRAW = "Infeed Current Draw";
 
-        // Misc
-        public static final String BEAM_BREAK = "Beam Break";
-        public static final String DISABLE_AUTO_FLYWHEEL_UPDATE = "disableAutomaticFlywheelUpdate";
-        public static final String DISABLE_AUTO_DISTANCE_UPDATE = "disableAutomaticDistanceUpdate";
-        public static final String DISABLE_AUTO_DISTANCE_UPDATE_TWO = "disableAutomaticDistanceUpdateTwo";
-        public static final String DISABLE_AUTO_DISTANCE_UPDATE_THREE = "disableAutomaticDistanceUpdateThree";
-        public static final String ROBOT_LAUNCH_X = "RobotLaunchX";
-        public static final String ROBOT_LAUNCH_Y = "RobotLaunchY";
-        public static final String GOAL_POSE = "Goal Pose";
-        public static final String ROBOT_DISTANCE = "Robot Distance";
-        public static final String FLIP_AUTO = "flipAuto";
+    // Misc
+    public static final String BEAM_BREAK = "Beam Break";
+    public static final String DISABLE_AUTO_FLYWHEEL_UPDATE = "disableAutomaticFlywheelUpdate";
+    public static final String MANUAL_DISTANCE_ONE = "disableAutomaticDistanceUpdate";
+    public static final String MANUAL_DISTANCE_TWO = "disableAutomaticDistanceUpdateTwo";
+    public static final String MANUAL_DISTANCE_THREE = "disableAutomaticDistanceUpdateThree";
+    public static final String ROBOT_LAUNCH_X = "RobotLaunchX";
+    public static final String ROBOT_LAUNCH_Y = "RobotLaunchY";
+    public static final String GOAL_POSE = "Goal Pose";
+    public static final String ROBOT_DISTANCE = "Robot Distance";
+    public static final String FLIP_AUTO = "Left/Right Flip Auto";
 
         // Heading
         public static final String HEADING_P = "Heading P";
@@ -307,17 +306,19 @@ public final class Constants {
         public static final String SEND_FRONT_LIMELIGHT_INFO = "Send Front Limelight info";
         public static final String SEND_RIGHT_LIMELIGHT_INFO = "Send Right Limelight info";
 
-        // Drivebase
-        public static final String OVERRIDE_QUEST_FOR_ROBOT_POSE = "overrideQuestForRobotPose";
-        public static final String PIGEON_GYRO = "Pigeon Gyro";
-        public static final String FIELD2D = "Field2d";
-        public static final String BATTERY_VOLTAGE = "Battery Voltage";
-        public static final String GYRO_ANGLE = "Gyro angle";
-        public static final String ROBOT_OD_POSE = "Robot od pose";
-        public static final String ROBOT_POSE = "Robot pose";
-        public static final String LIMELIGHT_POSE = "Limelight Pose";
-        public static final String DRIVEBASE_CURRENT = "Drivebase Current";
-    }
+    // Drivebase
+    public static final String OVERRIDE_QUEST_FOR_ROBOT_POSE = "overrideQuestForRobotPose";
+    public static final String PIGEON_GYRO = "Pigeon Gyro";
+    public static final String FIELD2D = "Field2d";
+    public static final String BATTERY_VOLTAGE = "Battery Voltage";
+    public static final String ROBOT_OD_POSE = "Robot od pose";
+    public static final String ROBOT_POSE = "Robot pose";
+    public static final String LIMELIGHT_POSE = "Limelight Pose";
+    public static final String DRIVEBASE_CURRENT = "Drivebase Current";
+    public static final String GYRO_STARTING_YAW = "Gyro starting yaw";
+    public static final String Gyro_HEADING = "Gyro Heading";
+    public static final String FIELD_ORIENTED = "Field Oriented";
+  }
 
     public static final class DriveConstants {
         // Driving Parameters - These are the maximum capable speeds of the robot.
@@ -335,13 +336,13 @@ public final class Constants {
         // Velocity dead bands applied in SDS code. Times max speed.
         public static final double DRIVE_DEADBAND = 0.01, ROTATION_DEADBAND = 0.001;
 
-        // Factors used to reduce robot max speed to levels desired for lab/demo
-        // operation.
-        // The split below matches the rotation speed to drive speed. Needs to be tuned
-        // for
-        // full weight robot.
-        public static final double kDriveReductionPct = .50; // 50% of max linear speed.
-        public static final double kRotationReductionPct = .70; // 70% of max rotational speed.
+    // Factors used to reduce robot max speed to levels desired for lab/demo
+    // operation.
+    // The split below matches the rotation speed to drive speed. Needs to be tuned
+    // for
+    // full weight robot.
+    public static final double kDriveReductionPct = 1; // Percentage of max linear speed. e.g. .50 == 50%
+    public static final double kRotationReductionPct = .70; // Percentage of max rotational speed. e.g. .70 == 70%
 
         // Factors used to slow robot speed for fine driving.
         public static final double kSlowModeLinearPct = .15; // 15% of max linear speed.

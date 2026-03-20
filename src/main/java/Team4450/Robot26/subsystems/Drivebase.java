@@ -30,6 +30,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -147,14 +148,15 @@ public class Drivebase extends SubsystemBase {
     // See this function for more information.
     updateModulePoses(sdsDrivebase);
 
-    SmartDashboard.putNumber("Gyro starting yaw", pigeonWrapper.startingYaw);
-
-    SmartDashboard.putNumber("Gyro Heading", pigeonWrapper.getHeading());
-    SmartDashboard.putNumber(Constants.SmartDashboardKeys.BATTERY_VOLTAGE, RobotController.getBatteryVoltage());
-    SmartDashboard.putString(Constants.SmartDashboardKeys.ROBOT_OD_POSE, getODPose().toString());
     SmartDashboard.putString(Constants.SmartDashboardKeys.ROBOT_POSE, getPose().toString());
-    SmartDashboard.putNumber(Constants.SmartDashboardKeys.DRIVEBASE_CURRENT, getDrivetrainCurrent());
-    SmartDashboard.putString(Constants.SmartDashboardKeys.LIMELIGHT_POSE, this.limelightPoseEstimate.toString());
+    if (RobotContainer.inTestMode) {
+        SmartDashboard.putNumber(Constants.SmartDashboardKeys.Gyro_HEADING, pigeonWrapper.startingYaw);
+        SmartDashboard.putNumber(Constants.SmartDashboardKeys.GYRO_STARTING_YAW, pigeonWrapper.getHeading());
+        SmartDashboard.putNumber(Constants.SmartDashboardKeys.BATTERY_VOLTAGE, RobotController.getBatteryVoltage());
+        SmartDashboard.putString(Constants.SmartDashboardKeys.ROBOT_OD_POSE, getODPose().toString());
+        SmartDashboard.putNumber(Constants.SmartDashboardKeys.DRIVEBASE_CURRENT, getDrivetrainCurrent());
+        SmartDashboard.putString(Constants.SmartDashboardKeys.LIMELIGHT_POSE, this.limelightPoseEstimate.toString());
+    }
   }
 
   public double getDrivetrainCurrent() {
@@ -389,6 +391,7 @@ public class Drivebase extends SubsystemBase {
     return pigeonWrapper.getYaw180();
   }
 
+  // This is for setting the Limelight 4s starting position
   public RobotOrientation getRobotOrientation() { // As far as I can tell these are the correct values
     return new RobotOrientation(pigeonWrapper.pigeon.getYaw().getValueAsDouble(),
         pigeonWrapper.pigeon.getAngularVelocityXWorld().getValueAsDouble(),
@@ -399,8 +402,7 @@ public class Drivebase extends SubsystemBase {
   }
 
   private void updateDS() {
-    SmartDashboard.putBoolean("Brakes", neutralModeBrake);
-    SmartDashboard.putBoolean("Field Oriented", fieldRelativeDriving);
+    SmartDashboard.putBoolean(Constants.SmartDashboardKeys.FIELD_ORIENTED, fieldRelativeDriving);
   }
 
   public void addQuestMeasurement(Pose2d pose, double timestampSeconds) {
@@ -424,7 +426,6 @@ public class Drivebase extends SubsystemBase {
     // Basic vision update that just sets the pose, this is good enough for testing
     // if it is working
     this.limelightPoseEstimate = pose;
-    SmartDashboard.putString("Limelight Pose", this.limelightPoseEstimate.toString());
   }
 
   /**
@@ -443,7 +444,8 @@ public class Drivebase extends SubsystemBase {
     double deltaX = targetPose.getX() - currentPose.getX();
     double deltaY = targetPose.getY() - currentPose.getY();
 
-    double angleToAim = Math.toDegrees(Math.atan2(deltaY, deltaX));
+    double angleToAim;
+    angleToAim = Math.toDegrees(Math.atan2(deltaY, deltaX));
 
     return angleToAim;
   }

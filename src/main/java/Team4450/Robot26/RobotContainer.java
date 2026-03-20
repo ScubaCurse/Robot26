@@ -345,20 +345,26 @@ public class RobotContainer {
         new Trigger(() -> driverController.getLeftBumperButton()) // Rich
                 .onChange(new InstantCommand(drivebase::toggleSlowMode));
 
-        new Trigger(() -> driverController.getPOV() == 0) // Up D-pad
-                .onTrue(new InstantCommand(shooter::toggleDisableAutomaticDistance));
+    new Trigger(() -> driverController.getPOV() == 90) // Rich // Right D-pad
+        .onTrue(new InstantCommand(drivebase::setX));
 
-        new Trigger(() -> driverController.getPOV() == 90) // Rich // Right D-pad
-                .onTrue(new InstantCommand(drivebase::setX));
+    new Trigger(() -> driverController.getPOV() == 0) // Up D-pad
+        .onTrue(new InstantCommand(shooter::toggleManualDistanceOne))
+        .onTrue(new InstantCommand(shooter::disableManualDistanceTwo))
+        .onTrue(new InstantCommand(shooter::disableManualDistanceThree));
 
-        new Trigger(() -> driverController.getPOV() == 180) // Down D-pad
-                .onTrue(new InstantCommand(shooter::toggleDisableAutomaticDistanceThree));
+    new Trigger(() -> driverController.getPOV() == 180) // Down D-pad
+        .onTrue(new InstantCommand(shooter::toggleManaualDistanceThree))
+        .onTrue(new InstantCommand(shooter::disableManualDistanceOne))
+        .onTrue(new InstantCommand(shooter::disableManualDistanceTwo));
 
-        new Trigger(() -> driverController.getPOV() == 270) // Left D-pad
-                .onTrue(new InstantCommand(shooter::toggleDisableAutomaticDistanceTwo));
-
-        new Trigger(() -> driverController.getRightBumperButton())
-                .toggleOnTrue(new InstantCommand(intake::togglePivit));
+    new Trigger(() -> driverController.getPOV() == 270) // Left D-pad
+        .onTrue(new InstantCommand(shooter::toggleManualDistanceTwo))
+        .onTrue(new InstantCommand(shooter::disableManualDistanceOne))
+        .onTrue(new InstantCommand(shooter::disableManualDistanceThree));
+    
+    new Trigger(() -> driverController.getRightBumperButton())
+        .onTrue(new InstantCommand(intake::togglePivit));
 
         new Trigger(() -> driverController.getLeftTrigger())
                 .whileTrue(new Shoot(drivebase, shooter, hopper));

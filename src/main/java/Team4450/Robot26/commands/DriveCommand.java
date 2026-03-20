@@ -100,15 +100,14 @@ public class DriveCommand extends Command {
             }
             // If there IS input, set the target heading to where the joystick is facing in relation to the driver
         } else {
-            targetHeading = -Math.toDegrees(Math.atan2(rotationYSupplier.getAsDouble(), rotationXSupplier.getAsDouble())) - 90;
+            // targetHeading = -Math.toDegrees(Math.atan2(rotationYSupplier.getAsDouble(), rotationXSupplier.getAsDouble())) - 90;
+            targetHeading = drivebase.getAngleToAim(hubPosition);
         }
-
 
         targetHeading = normalizeAngle(targetHeading);
         SmartDashboard.putNumber(Constants.SmartDashboardKeys.TARGET_HEADING, targetHeading);
 
         if (Constants.HUB_TRACKING) {
-
             // Uses a PID and the previous assigned target heading to rotate there
             double rotation = headingPID.calculate(-drivebase.getYaw180(), targetHeading);
             SmartDashboard.putNumber(Constants.SmartDashboardKeys.HEADING_PID_OUTPUT, rotation);

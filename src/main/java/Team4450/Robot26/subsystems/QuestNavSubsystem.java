@@ -18,7 +18,7 @@ public class QuestNavSubsystem extends SubsystemBase {
     private boolean hasQuest;
     private QuestNav questNav;
     private Transform3d ROBOT_TO_QUEST = new Transform3d(Constants.ROBOT_TO_QUEST.getX(), Constants.ROBOT_TO_QUEST.getY(), Constants.ROBOT_TO_QUEST.getZ(), Constants.ROBOT_TO_QUEST.getRotation());
-    
+
     final Pose3d nullPose = new Pose3d(-1, -1, -1, Rotation3d.kZero);
     final Pose2d nullPose2d = new Pose2d(-1, -1, Rotation2d.kZero);
     final Pose3d zeroPose = new Pose3d(0, 0, 0, Rotation3d.kZero);
@@ -106,7 +106,7 @@ public class QuestNavSubsystem extends SubsystemBase {
                         // drivebase.pigeonWrapper.setCurrentYaw(drivebase.limelightPoseEstimate.getRotation().getDegrees());
                         drivebase.limelightPoseEstimate = nullPose2d;
                         this.lastResetTime = System.currentTimeMillis();
-                    // }
+                        // }
                 } else {
                     this.lastResetTime = System.currentTimeMillis();
                 }
@@ -140,4 +140,5 @@ public class QuestNavSubsystem extends SubsystemBase {
             }
         }
     }
+}
 }

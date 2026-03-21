@@ -351,15 +351,16 @@ public class Drivebase extends SubsystemBase {
      * @return Robot pose.
      */
     public Pose2d getPose() {
-        if (RobotContainer.questNavSubsystem.hasQuest()
-                || SmartDashboard.getBoolean("overrideQuestForRobotPose", this.overrideQuestForRobotPose)) {
-            SmartDashboard.putBoolean("Trying to send current robotPose", true);
-            return new Pose2d(robotPose.getX(), robotPose.getY(),
-                    new Rotation2d(Math.toRadians(pigeonWrapper.getYaw180())));
-        } else {
-            SmartDashboard.putBoolean("Trying to send current robotPose", false);
-            return new Pose2d(0, 0, new Rotation2d(0));
-        }
+        // if (RobotContainer.questNavSubsystem.hasQuest()
+        //         || SmartDashboard.getBoolean("overrideQuestForRobotPose", this.overrideQuestForRobotPose)) {
+        //     SmartDashboard.putBoolean("Trying to send current robotPose", true);
+        //     return new Pose2d(robotPose.getX(), robotPose.getY(),
+        //             new Rotation2d(Math.toRadians(pigeonWrapper.getYaw180())));
+        // } else {
+        //     SmartDashboard.putBoolean("Trying to send current robotPose", false);
+        //     return new Pose2d(0, 0, new Rotation2d(0));
+        // }
+        return getODPose();
     }
 
   // Get the sds ordometry rotation velocity in radians per second

@@ -203,6 +203,8 @@ public class Shooter extends SubsystemBase {
             sdInit = true;
         }
 
+        targetRPM = SmartDashboard.getNumber(Constants.SmartDashboardKeys.FLYWHEEL_TARGET_RPM, 0);
+
         double targetRPS;
 
         if (flywheelEnabled && canFlywheel) {

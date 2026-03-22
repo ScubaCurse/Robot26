@@ -18,7 +18,7 @@ public class QuestNavSubsystem extends SubsystemBase {
     private boolean hasQuest;
     private QuestNav questNav;
     private Transform3d ROBOT_TO_QUEST = new Transform3d(Constants.ROBOT_TO_QUEST.getX(), Constants.ROBOT_TO_QUEST.getY(), Constants.ROBOT_TO_QUEST.getZ(), Constants.ROBOT_TO_QUEST.getRotation());
-    
+
     final Pose3d nullPose = new Pose3d(-1, -1, -1, Rotation3d.kZero);
     final Pose2d nullPose2d = new Pose2d(-1, -1, Rotation2d.kZero);
     final Pose3d zeroPose = new Pose3d(0, 0, 0, Rotation3d.kZero);
@@ -102,11 +102,12 @@ public class QuestNavSubsystem extends SubsystemBase {
             // 5000 miliseconds is 5 seconds
             if (System.currentTimeMillis() - this.lastResetTime > 1500) {
                 if (RobotContainer.visionSubsystem.frontLimelightSee || RobotContainer.visionSubsystem.rightLimelightSee) { // One of the limelight must be seeing tags
-                    // if (Math.abs(drivebase.getPose().getX() - drivebase.limelightPoseEstimate.getX()) > Constants.LIMELIGHT_QUEST_ERROR_AMOUNT_METERS || Math.abs(drivebase.getPose().getX() - drivebase.limelightPoseEstimate.getY()) > Constants.LIMELIGHT_QUEST_ERROR_AMOUNT_METERS) {
-                        // drivebase.pigeonWrapper.setCurrentYaw(drivebase.limelightPoseEstimate.getRotation().getDegrees());
+                    if (Math.abs(drivebase.getPose().getX() - drivebase.limelightPoseEstimate.getX()) > Constants.LIMELIGHT_QUEST_ERROR_AMOUNT_METERS || Math.abs(drivebase.getPose().getX() - drivebase.limelightPoseEstimate.getY()) > Constants.LIMELIGHT_QUEST_ERROR_AMOUNT_METERS) {
+                        // Setting the current yaw seems a little bad and might cause problems
+                        drivebase.pigeonWrapper.setCurrentYaw(drivebase.limelightPoseEstimate.getRotation().getDegrees());
                         drivebase.limelightPoseEstimate = nullPose2d;
                         this.lastResetTime = System.currentTimeMillis();
-                    // }
+                        }
                 } else {
                     this.lastResetTime = System.currentTimeMillis();
                 }

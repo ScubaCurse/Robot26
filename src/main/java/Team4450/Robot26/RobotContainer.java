@@ -186,14 +186,14 @@ public class RobotContainer {
 
         // Pathplanner NamedCommands
 
-        NamedCommands.registerCommand("intakeDown", new IntakeDown(intake));
-        NamedCommands.registerCommand("intakeUp", new IntakeUp(intake));
-        NamedCommands.registerCommand("enableHubTracking", new EnableHubTracking(drivebase, headingPID));
-        NamedCommands.registerCommand("disableHubTracking", new DisableHubTracking(drivebase));
-        NamedCommands.registerCommand("intake", new StartIntake(intake));
-        NamedCommands.registerCommand("shoot", new Shoot(drivebase, shooter, hopper));
-        NamedCommands.registerCommand("stopShooter", new StopShoot(shooter, hopper));
-        NamedCommands.registerCommand("end", new StopAuto(drivebase));
+    NamedCommands.registerCommand("intakeDown", new IntakeDown(intake));
+    NamedCommands.registerCommand("intakeUp", new IntakeUp(intake));
+    NamedCommands.registerCommand("enableHubTracking", new EnableHubTracking(drivebase, headingPID));
+    NamedCommands.registerCommand("disableHubTracking", new DisableHubTracking(drivebase));
+    NamedCommands.registerCommand("intake", new StartIntake(intake));
+    NamedCommands.registerCommand("shoot", new Shoot(drivebase, shooter, hopper, intake));
+    NamedCommands.registerCommand("stopShooter", new StopShoot(shooter, hopper));
+    NamedCommands.registerCommand("end", new StopAuto(drivebase));
 
         // Set the default drive command. This command will be scheduled automatically
         // to run
@@ -366,8 +366,8 @@ public class RobotContainer {
     new Trigger(() -> driverController.getRightBumperButton())
         .onTrue(new InstantCommand(intake::togglePivit));
 
-        new Trigger(() -> driverController.getLeftTrigger())
-                .whileTrue(new Shoot(drivebase, shooter, hopper));
+    new Trigger(() -> driverController.getLeftTrigger())
+        .whileTrue(new Shoot(drivebase, shooter, hopper, intake));
 
         new Trigger(() -> driverController.getRightTrigger())
                 .onTrue(new InstantCommand(shooter::startInfeed))

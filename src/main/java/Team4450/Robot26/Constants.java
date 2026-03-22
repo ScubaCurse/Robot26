@@ -72,12 +72,12 @@ public final class Constants {
 
   public static int SHOOTER_UPPER_BEAM_BREAK_PORT = 3;
 
-  public static int SHOOTER_FLYWHEEL_CURRENT_LIMIT = 35;
-  public static int SHOOTER_INFEED_CURRENT_LIMIT = 40;
-  public static int SHOOTER_HOOD_CURRENT_LIMIT = 5;
-  public static int INTAKE_CURRENT_LIMIT = 20;
-  public static int INTAKE_PIVIT_CURRENT_LIMIT = 5;
-  public static int LOWER_ROLLERS_CURRENT_LIMIT = 25;
+    public static int SHOOTER_FLYWHEEL_CURRENT_LIMIT = 35;
+    public static int SHOOTER_INFEED_CURRENT_LIMIT = 40;
+    public static int SHOOTER_HOOD_CURRENT_LIMIT = 8;
+    public static int INTAKE_CURRENT_LIMIT = 20;
+    public static int INTAKE_PIVIT_CURRENT_LIMIT = 5;
+    public static int LOWER_ROLLERS_CURRENT_LIMIT = 25;
 
   public static double HOOD_GEAR_RATIO = 3.0 / 8.0;
   public static double HOOD_DOWN_ANGLE_DEGREES = 15;
@@ -125,7 +125,7 @@ public final class Constants {
 
   // The rotation values are in radians
 
-  public static Pose3d ROBOT_TO_QUEST = new Pose3d(0, 0, 0,
+  public static Pose3d ROBOT_TO_QUEST = new Pose3d(0.305, 0, 0,
       new Rotation3d(Math.toRadians(0), Math.toRadians(0), Math.toRadians(0)));
 
   public static Pose3d ROBOT_TO_LIMELIGHT_FRONT = new Pose3d(0.305, 0, 0, new Rotation3d(0, -0.3491, 0));

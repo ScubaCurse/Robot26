@@ -127,7 +127,7 @@ public final class Constants {
     public static int LIMELIGHT_TYNC_LIMIT = 15;
 
     public static int LIMELIGHT_TAG_LIMIT = 2;
-    
+
     public static double LIMELIGHT_X_VELOCITY_LIMIT = 0.1;
     public static double LIMELIGHT_Y_VELOCITY_LIMIT = 0.1;
     public static double LIMELIGHT_ROT_VELOCITY_LIMIT = 0.3;
@@ -184,6 +184,14 @@ public final class Constants {
     public static Pose2d FERRY_RED_BLANK_CORNER = new Pose2d(15.243, 0.635, Rotation2d.kZero);
 
     public static double FIELD_MIDDLE_Y = 4.021;
+    // Interpolation table
+    public static double[] FLYWHEEL_SPEED_TABLE = { 3550, 3550, 3650, 3850, 4050, 4300, 4400 }; // Converted from
+                                                                                                // percentages to
+                                                                                                // RPM
+    public static double[] FLYWHEEL_SPEED_DISTANCE_TABLE = { 1.5, 2, 2.5, 3, 3.5, 4, 4.5 };
+    public static double[] HOOD_ARC_TABLE = { 0.6, 0.9, 1.65, 1.8, 1.85, 1.85, 2.3 };
+
+    public static double[] FUEL_AIR_TIME_TABLE_SEC = { 1.1, 1.3, 1.4, 1.5, 1.8, 1.9, 2.1 };
 
     public static double ROBOT_HEADING_KP = 0.02;
     public static double ROBOT_HEADING_KI = 0;
@@ -192,13 +200,6 @@ public final class Constants {
     public static double ROBOT_HEADING_TOLERANCE_DEG = 0.0001;
     public static boolean HUB_TRACKING = false;
 
-    // Interpolation table
-    public static double[] FLYWHEEL_SPEED_TABLE = { 3550, 3550, 3650, 3850, 4050, 4300, 4400 }; // Converted from percentages to
-                                                                                                // RPM
-    public static double[] FLYWHEEL_SPEED_DISTANCE_TABLE = { 1.5, 2, 2.5, 3, 3.5, 4, 4.5 };
-    public static double[] HOOD_ARC_TABLE = { 0.6, 0.9, 1.65, 1.8, 1.85, 1.85, 2.3 };
-
-    public static double[] FUEL_AIR_TIME_TABLE_SEC = { 1.1, 1.3, 1.4, 1.5, 1.8, 1.9, 2.1 };
 
     // -------------------------------------------------------------------------------------
     // Flywheel tuning defaults (used as Shuffleboard starting values)
@@ -331,12 +332,11 @@ public final class Constants {
 
     public static final class DriveConstants {
         // Driving Parameters - These are the maximum capable speeds of the robot.
-
+        
         // Top speed determined by TunerX. Rotation speed reccommended by CTRE.
         // 2026 robot max speed is 5.29 m/s.
         public static double kMaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // top speed
-        public static double kMaxAngularRate = RotationsPerSecond.of(1.0).in(RadiansPerSecond); // 1 rotation per second max
-                                                                                                // angular velocity
+        public static double kMaxAngularRate = RotationsPerSecond.of(1.0).in(RadiansPerSecond); // 1 rotation per second
 
         public static double kMaxAcceleration = -1;
         public static double kMaxAngularAcceleration = -1;

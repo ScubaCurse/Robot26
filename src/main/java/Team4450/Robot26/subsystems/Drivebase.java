@@ -62,7 +62,6 @@ public class Drivebase extends SubsystemBase {
   // to control what is displayed (the simulated robot).
   private final Field2d field2d = new Field2d();
 
-  private boolean overrideQuestForRobotPose = false;
   private boolean fieldRelativeDriving = true, slowMode = false;
   private boolean neutralModeBrake = true;
   private double maxSpeed = kMaxSpeed * kDriveReductionPct;
@@ -85,9 +84,6 @@ public class Drivebase extends SubsystemBase {
 
   public Drivebase() {
     Util.consoleLog();
-
-        this.overrideQuestForRobotPose = false;
-        SmartDashboard.putBoolean(Constants.SmartDashboardKeys.OVERRIDE_QUEST_FOR_ROBOT_POSE, this.overrideQuestForRobotPose);
 
         // Add pigeon gyro as a Sendable. Updates the dashboard heading indicator
         // automatically.
@@ -149,6 +145,8 @@ public class Drivebase extends SubsystemBase {
     updateModulePoses(sdsDrivebase);
 
     SmartDashboard.putString(Constants.SmartDashboardKeys.ROBOT_POSE, getPose().toString());
+    SmartDashboard.putBoolean(Constants.SmartDashboardKeys.HUB_TRACKING, Constants.HUB_TRACKING);
+
     if (RobotContainer.inTestMode) {
         SmartDashboard.putNumber(Constants.SmartDashboardKeys.Gyro_HEADING, pigeonWrapper.startingYaw);
         SmartDashboard.putNumber(Constants.SmartDashboardKeys.GYRO_STARTING_YAW, pigeonWrapper.getHeading());
@@ -351,15 +349,6 @@ public class Drivebase extends SubsystemBase {
      * @return Robot pose.
      */
     public Pose2d getPose() {
-        // if (RobotContainer.questNavSubsystem.hasQuest()
-        //         || SmartDashboard.getBoolean("overrideQuestForRobotPose", this.overrideQuestForRobotPose)) {
-        //     SmartDashboard.putBoolean("Trying to send current robotPose", true);
-        //     return new Pose2d(robotPose.getX(), robotPose.getY(),
-        //             new Rotation2d(Math.toRadians(pigeonWrapper.getYaw180())));
-        // } else {
-        //     SmartDashboard.putBoolean("Trying to send current robotPose", false);
-        //     return new Pose2d(0, 0, new Rotation2d(0));
-        // }
         return getODPose();
     }
 

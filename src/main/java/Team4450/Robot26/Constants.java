@@ -317,7 +317,6 @@ public final class Constants {
         public static final String SEND_RIGHT_LIMELIGHT_INFO = "Send Right Limelight info";
 
         // Drivebase
-        public static final String OVERRIDE_QUEST_FOR_ROBOT_POSE = "overrideQuestForRobotPose";
         public static final String PIGEON_GYRO = "Pigeon Gyro";
         public static final String FIELD2D = "Field2d";
         public static final String BATTERY_VOLTAGE = "Battery Voltage";
@@ -328,6 +327,7 @@ public final class Constants {
         public static final String GYRO_STARTING_YAW = "Gyro starting yaw";
         public static final String Gyro_HEADING = "Gyro Heading";
         public static final String FIELD_ORIENTED = "Field Oriented";
+        public static final String HUB_TRACKING = "Hub Tracking";
     }
 
     public static final class DriveConstants {

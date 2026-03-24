@@ -1,6 +1,7 @@
 package Team4450.Robot26.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.controller.PIDController;
@@ -8,6 +9,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import Team4450.Lib.Util;
 import Team4450.Robot26.Constants;
+import Team4450.Robot26.RobotContainer;
 import Team4450.Robot26.subsystems.Drivebase;
 import static Team4450.Robot26.Constants.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -111,7 +113,8 @@ public class DriveCommand extends Command {
         SmartDashboard.putNumber(Constants.SmartDashboardKeys.TARGET_HEADING, targetHeading);
 
         double drivebaseYaw = drivebase.getODPose().getRotation().getDegrees();
-        SmartDashboard.putNumber("Heading Error", drivebaseYaw - targetHeading);
+        double headingError = drivebaseYaw - targetHeading;
+        SmartDashboard.putNumber("Heading Error", headingError);
 
         if (Constants.HUB_TRACKING) {
             // Uses a PID and the previous assigned target heading to rotate there
@@ -127,10 +130,20 @@ public class DriveCommand extends Command {
             headingPID.setI(SmartDashboard.getNumber(Constants.SmartDashboardKeys.HEADING_I, Constants.ROBOT_HEADING_KI));
             headingPID.setD(SmartDashboard.getNumber(Constants.SmartDashboardKeys.HEADING_D, Constants.ROBOT_HEADING_KD));
 
+            if (Math.abs(headingError) <= 5) {
+                RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 0.2);
+            } else {
+                RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 0);
+            }
+
             drivebase.drive(throttle, strafe, rotation);
             return;
         } else {
+            RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 0);
             double rotation = rotationXSupplier.getAsDouble();
+            if (rotation <= 0.1) {
+                rotation = rotation * 2;
+            }
             double throttle = throttleSupplier.getAsDouble();
             double strafe = strafeSupplier.getAsDouble();
 

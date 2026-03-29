@@ -189,7 +189,7 @@ public final class Constants {
     public static double ROBOT_HEADING_KI = 0;
     public static double ROBOT_HEADING_KI_MAX = 0;
     public static double ROBOT_HEADING_KD = 0.004;
-    public static double ROBOT_HEADING_TOLERANCE_DEG = 0.0001;
+    public static double ROBOT_HEADING_TOLERANCE_DEG = 3;
     public static boolean HUB_TRACKING = false;
 
     // Interpolation table

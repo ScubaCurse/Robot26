@@ -350,8 +350,8 @@ public class RobotContainer {
         // Toggle slow-mode
         // Right D-Pad button sets X pattern to stop movement.
 
-        new Trigger(() -> driverController.getLeftBumperButton()) // Rich
-                .onChange(new InstantCommand(drivebase::toggleSlowMode));
+    new Trigger(() -> driverController.getLeftBumperButton()) // Rich
+        .onChange(new InstantCommand(drivebase::toggleSlowMode));
 
     new Trigger(() -> driverController.getPOV() == 0) // Up D-pad
         .onTrue(new InstantCommand(shooter::toggleManualDistanceOne))
@@ -384,9 +384,9 @@ public class RobotContainer {
     new Trigger(() -> driverController.getAButton())
         .onTrue(new InstantCommand(drivebase::setBumpHappened));
 
-    new Trigger(() -> driverController.getBButton())
-        .onTrue(new InstantCommand(visionSubsystem::resetYaw))
-        .onTrue(new InstantCommand(drivebase::resetFieldOrientation));
+    // new Trigger(() -> driverController.getBButton())
+    //     .onTrue(new InstantCommand(visionSubsystem::resetYaw))
+    //     .onTrue(new InstantCommand(drivebase::resetFieldOrientation));
 
     new Trigger(() -> driverController.getYButton())
         .onTrue(new InstantCommand(shooter::reverseInfeed))

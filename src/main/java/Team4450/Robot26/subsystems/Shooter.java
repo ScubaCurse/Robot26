@@ -60,6 +60,7 @@ public class Shooter extends SubsystemBase {
     public boolean driverEnabledInfeed = false;
 
     DigitalInput beamBreak;
+    private Timer beamBreakTimer;
 
     // Constants for launch calculations
     private static final double GRAVITY = 9.81;
@@ -102,7 +103,10 @@ public class Shooter extends SubsystemBase {
 
         this.hoodRotationOffset = this.hoodLeft.getPosition(true).getValueAsDouble();
 
+        this.beamBreakTimer = new Timer();
+
         beamBreak = new DigitalInput(Constants.SHOOTER_UPPER_BEAM_BREAK_PORT);
+        beamBreakTimer.start();
 
         applyFlywheelConfig(
             Constants.FLYWHEEL_kP, Constants.FLYWHEEL_kI, Constants.FLYWHEEL_kD,
@@ -118,6 +122,7 @@ public class Shooter extends SubsystemBase {
         SmartDashboard.putNumber(Constants.SmartDashboardKeys.HOOD_POSITION, 0);
 
         SmartDashboard.putNumber(Constants.SmartDashboardKeys.FLYWHEEL_TARGET_RPM, Constants.FLYWHEEL_TARGET_RPM);
+        SmartDashboard.putNumber(Constants.SmartDashboardKeys.FLYWHEEL_CURVE_MULTIPLIER, 22);
 
         SmartDashboard.putNumber(Constants.SmartDashboardKeys.FLYWHEEL_KP, Constants.FLYWHEEL_kP);
         SmartDashboard.putNumber(Constants.SmartDashboardKeys.FLYWHEEL_KI, Constants.FLYWHEEL_kI);
@@ -154,6 +159,8 @@ public class Shooter extends SubsystemBase {
 
         // Update the beam break sensors
         SmartDashboard.putBoolean(Constants.SmartDashboardKeys.BEAM_BREAK, beamBreak.get());
+
+        if(!beamBreak.get()) beamBreakTimer.reset();
 
         hoodMotorPosition = hoodLeft.getPosition().getValueAsDouble();
 

@@ -48,7 +48,7 @@
     },
     {
       "anchor": {
-        "x": 6.075961123110151,
+        "x": 6.061396103896104,
         "y": 2.74208423326134
       },
       "prevControl": {
@@ -80,8 +80,8 @@
     },
     {
       "anchor": {
-        "x": 3.039568034557236,
-        "y": 0.9856034482758629
+        "x": 2.941619870410367,
+        "y": 0.9171874999969463
       },
       "prevControl": {
         "x": 3.2535057350838508,
@@ -89,12 +89,12 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Shoot 254"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.10236220472440945,
+      "waypointRelativePos": 0.10252365930599369,
       "rotationDegrees": 0.0
     },
     {
@@ -111,26 +111,30 @@
     },
     {
       "waypointRelativePos": 2.598425196850393,
-      "rotationDegrees": 80.0
+      "rotationDegrees": 70.0
     },
     {
       "waypointRelativePos": 3.795275590551182,
       "rotationDegrees": 70.0
     },
     {
-      "waypointRelativePos": 4.2,
+      "waypointRelativePos": 4,
       "rotationDegrees": 0.0
     },
     {
-      "waypointRelativePos": 4.850393700787403,
+      "waypointRelativePos": 4,
+      "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 4.944794952681388,
       "rotationDegrees": 0.0
     }
   ],
   "constraintZones": [
     {
       "name": "Intake Speed",
-      "minWaypointRelativePos": 1.357913669064748,
-      "maxWaypointRelativePos": 2.7338129496402894,
+      "minWaypointRelativePos": 1.028776978417267,
+      "maxWaypointRelativePos": 4.0,
       "constraints": {
         "maxVelocity": 1.4,
         "maxAcceleration": 3.0,
@@ -143,7 +147,7 @@
     {
       "name": "Safety Speed",
       "minWaypointRelativePos": 3.38,
-      "maxWaypointRelativePos": 5.0,
+      "maxWaypointRelativePos": 4.5,
       "constraints": {
         "maxVelocity": 4.0,
         "maxAcceleration": 4.0,
@@ -169,23 +173,12 @@
     },
     {
       "name": "intake",
-      "waypointRelativePos": 0.557553956834533,
+      "waypointRelativePos": 0.6270270270270273,
       "endWaypointRelativePos": 4.541366906474815,
       "command": {
         "type": "named",
         "data": {
           "name": "intake"
-        }
-      }
-    },
-    {
-      "name": "spinShooter",
-      "waypointRelativePos": 4.514388489208632,
-      "endWaypointRelativePos": 5.0,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "spinShooter"
         }
       }
     }

@@ -1,10 +1,11 @@
 Vision position updates quicker after going over the bump
-    Test the changes Cole make to vision averging, mmt
+    
+    // On the visionTesting branch
     Try to remove the linear velocity constraints for vision and just keep the roational constraints (maybe), Maybe with averaging it will not matter to be so hard on the vision estimates
 
-You can change the acceleration limits for the motion magic request on the fly
-    Increase lower roller velocity / even the infeed velocity
+Increase lower roller velocity / even the infeed velocity
 
+// Toby is working on this on his pathplannerChanges branch
 Auto
     When going through the trench in auto put the intake first so that the robot can see tags
     Tell Toby to create a bump auto routine starting from the center
